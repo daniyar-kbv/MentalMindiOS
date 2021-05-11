@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  MentalMindiOS
+
+  Created by Dan on 4/2/21.
+  
+*/
+
+"NSPhotoLibraryUsageDescription" = "MentalMind требует доступ к фото-библиотеке, чтобы загрузить аватар.";
+
