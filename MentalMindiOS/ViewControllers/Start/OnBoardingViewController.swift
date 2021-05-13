@@ -72,11 +72,11 @@ extension OnBoardingViewController: UICollectionViewDelegate, UICollectionViewDa
             cell.title.text = "Освободи свой мозг от всех ограничений".localized
             cell.subtitle.text = "С помощью простых и уникальных инструментов".localized
         case 1:
-            cell.title.text = "Ежедневная проработка каждый день".localized
+            cell.title.text = "Ценная проработка для повышения качества жизни на каждый день".localized
             cell.subtitle.text = "Три минуты вернут тебя в потоковое состояние".localized
         case 2:
-            cell.title.text = "Попробуй 3 дня бесплатно".localized
-            cell.subtitle.text = "После регистрации тебе будут доступны все медитации".localized
+            cell.title.text = "Позволь удивительным переменам войти в твою жизнь".localized
+            cell.subtitle.text = "Сделай правильный выбор, начни использовать приложение уже сейчас!".localized
         default:
             break
         }
