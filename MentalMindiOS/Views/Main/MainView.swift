@@ -21,7 +21,7 @@ class MainView: BaseView {
         let label = UILabel()
         label.font = .montserrat(ofSize: StaticSize.size(17), weight: .bold)
         label.textColor = .white
-        label.text = "Какой ты сейчас?".localized
+        label.text = "Что беспокоит?".localized
         label.adjustsFontSizeToFitWidth = true
         return label
     }()

@@ -30,7 +30,7 @@ class FeelingsViewController: InnerViewController<FeelingsViewModel> {
         
         statusBarStyle = .lightContent
         
-        feelingsView.setTitle("Какой ты сейчас?".localized)
+        feelingsView.setTitle("Что беспокоит?".localized)
         viewModel = FeelingsViewModel()
         
         feelingsView.collectionView.delegate = self
