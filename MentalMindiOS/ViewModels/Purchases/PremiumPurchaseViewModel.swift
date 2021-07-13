@@ -21,6 +21,7 @@ class PremiumPurchaseViewModel {
     
     func payment(receipt: String, tariffId: Int) {
         APIManager.shared.payment(receipt: receipt, tariffId: tariffId) { error, response in
+            ModuleUserDefaults.setIsPurchaseProcessed(true)
             self.paymentResponse.onNext(response)
         }
     }

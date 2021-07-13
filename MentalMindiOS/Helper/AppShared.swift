@@ -10,17 +10,32 @@ import Foundation
 import UIKit
 import RxSwift
 import PushNotifications
+import FBSDKLoginKit
 
 
 class AppShared {
     static let sharedInstance = AppShared()
     
     var appLoaded = false
-    
     var keyWindow: UIWindow?
     var navigationController: UINavigationController!
+    
     lazy var tabBarController = NavigationMenuBaseController()
     lazy var noInternetViewController = NoInternetViewController()
+    
+    var isDebug: Bool {
+        #if DEBUG
+            return true
+        #else
+            return false
+        #endif
+    }
+    
+    var fcmToken: String? {
+        didSet {
+            updateFcmToken()
+        }
+    }
     
     lazy var feelingSubject = PublishSubject<Int>()
     var feelingId: Int? = ModuleUserDefaults.getFeeling() {
@@ -34,21 +49,14 @@ class AppShared {
     var selectedLanguage = ModuleUserDefaults.getLanguage() {
         didSet {
             ModuleUserDefaults.setLanguage(selectedLanguage)
-            for language in Language.allCases {
-                language == selectedLanguage ?
-                    try? PushNotifications.shared.addDeviceInterest(interest: language.interestName) :
-                    try? PushNotifications.shared.removeDeviceInterest(interest: language.interestName)
-            }
-            
         }
     }
     
     lazy var userSubject = PublishSubject<User>()
     var user: User? = ModuleUserDefaults.getUser() {
         didSet {
-            guard let user = user, let email = user.email else { return }
+            guard let user = user else { return }
             ModuleUserDefaults.setUser(object: user)
-            try? PushNotifications.shared.addDeviceInterest(interest: email)
             userSubject.onNext(user)
         }
     }
@@ -79,6 +87,16 @@ class AppShared {
             selectedCountrySubject.onNext(country)
         }
     }
+    
+    lazy var selectedCitySubject = PublishSubject<City>()
+    var selectedCity: City? {
+        didSet {
+            guard let city = selectedCity else { return }
+            selectedCitySubject.onNext(city)
+        }
+    }
+    
+    var openNotification: Notification?
     
     func setNotifications() {
         guard let date = notificationsWeekdays.key, var weekdays = notificationsWeekdays.value else { return }
@@ -114,6 +132,46 @@ class AppShared {
                     print(error as Any)
                 }
             }
+        }
+    }
+    
+    func signOut() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.removeAllPendingNotificationRequests()
+        
+        ModuleUserDefaults.setToken(nil)
+        ModuleUserDefaults.setIsLoggedIn(false)
+        ModuleUserDefaults.setNotificationsWeekdays(nil)
+        ModuleUserDefaults.setNotificationDate(nil)
+        
+        feelingId = nil
+        level = nil
+        notificationsWeekdays = (key: nil, value: nil)
+        selectedCountry = nil
+        user = nil
+        
+        let window = Global.keyWindow
+        keyWindow = window
+        let vc = ChooseAuthViewController()
+        vc.authView.backButton.isHidden = true
+        navigationController.pushViewController(vc, animated: false)
+        navigationController.viewControllers.removeAll(where: { $0 != vc })
+        
+        window?.rootViewController = AppShared.sharedInstance.navigationController
+        window?.makeKeyAndVisible()
+        
+        AccessToken.current = nil
+        Profile.current = nil
+    }
+    
+    func updateFcmToken() {
+        guard let fcmToken = fcmToken,
+              ModuleUserDefaults.getFcmToken() != fcmToken &&
+              ModuleUserDefaults.getIsLoggedIn() else { return }
+        ModuleUserDefaults.setFcmToken(fcmToken)
+        APIManager.shared.updateProfile(fcmToken: fcmToken) { error, response in
+            guard let user = response?.data else { return }
+            self.user = user
         }
     }
 }

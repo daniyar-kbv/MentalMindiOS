@@ -29,16 +29,40 @@ class LaunchScreenViewController: UIViewController {
         super.viewDidLoad()
         
         bind()
-        if ModuleUserDefaults.getIsLoggedIn() {
-            viewModel.subscriptionStatus()
+        
+        if !ModuleUserDefaults.getIsPurchaseProcessed(), let tariffId = ModuleUserDefaults.getLastPurchaseTariffId() {
+            guard let appStoreReceiptURL = Bundle.main.appStoreReceiptURL,
+                  FileManager.default.fileExists(atPath: appStoreReceiptURL.path) else {
+                start()
+                return
+            }
+            do {
+                let receiptData = try Data(contentsOf: appStoreReceiptURL, options: .alwaysMapped)
+                let receiptString = receiptData.base64EncodedString(options: [])
+                viewModel.payment(receipt: receiptString, tariffId: tariffId)
+            } catch {
+                start()
+            }
         } else {
-            gotData = true
+            start()
         }
         
         UIApplication.shared.statusBarStyle = .lightContent
     }
     
+    func start() {
+        if ModuleUserDefaults.getIsLoggedIn() {
+            viewModel.subscriptionStatus()
+        } else {
+            gotData = true
+        }
+    }
+    
     func bind() {
+        viewModel.paymentResponse.subscribe(onNext: { [weak self] _ in
+            self?.start()
+        }).disposed(by: disposeBag)
+        
         viewModel.data.subscribe(onNext: { object in
             DispatchQueue.main.async {
                 let user = AppShared.sharedInstance.user
@@ -59,9 +83,8 @@ class LaunchScreenViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         runTimer()
-        
+    
         AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.addTarget(self, action: #selector(navigationControllerPopGestureRecognizerAction(_:)))
         AppShared.sharedInstance.navigationController.delegate = self
         AppShared.sharedInstance.navigationController.interactivePopGestureRecognizer?.isEnabled = false
@@ -87,13 +110,14 @@ class LaunchScreenViewController: UIViewController {
     
     func toMain() {
 //        if gotData && timerValue == 0 {
+        if !ErrorView.isPresenting {
             let transition = CATransition()
             transition.duration = 0.2
             transition.type = .fade
             self.navigationController?.view.layer.add(transition, forKey: nil)
             var vc: UIViewController
             if ModuleUserDefaults.getIsInitial() {
-//                vc = LanguageViewController()
+    //                vc = LanguageViewController()
                 vc = OnBoardingViewController()
             } else if !ModuleUserDefaults.getIsLoggedIn() {
                 let chooseVc = ChooseAuthViewController()
@@ -105,6 +129,7 @@ class LaunchScreenViewController: UIViewController {
             }
             navigationController?.pushViewController(vc, animated: false)
             AppShared.sharedInstance.appLoaded = true
+        }
 //        }
     }
 }

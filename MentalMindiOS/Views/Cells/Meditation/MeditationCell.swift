@@ -16,7 +16,7 @@ class MeditationCell: UITableViewCell {
         didSet {
             isActive = meditation?.meditationFileMaleVoice != nil || meditation?.meditationFileFemaleVoice != nil
             titleLabel.text = meditation?.meditationName
-            timeLabel.text = "\((meditation?.duration ?? 0) / 60) \("мин.".localized)"
+            timeLabel.text = "\((meditation?.getDuration(.female) ?? 0) / 60) \("мин.".localized)"
         }
     }
     

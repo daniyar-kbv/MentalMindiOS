@@ -24,8 +24,8 @@ class MeditationSoundsViewController: BaseViewController {
         statusBarStyle = .lightContent
         
         if let index = superVc?.currentMeditaion {
-            mainView.menVoiceButton.isHidden = superVc?.collection?.meditations?[index].fileMaleVoice == nil
-            mainView.womenVoiceButton.isHidden = superVc?.collection?.meditations?[index].fileFemaleVoice == nil
+            mainView.menVoiceButton.isHidden = superVc?.collection.meditations?[index].fileMaleVoice == nil
+            mainView.womenVoiceButton.isHidden = superVc?.collection.meditations?[index].fileFemaleVoice == nil
             if mainView.voiceStack.arrangedSubviews.contains(where: { $0.isHidden == true }) {
                 mainView.voiceStack.arrangedSubviews.first(where: { $0.isHidden == false })?.isUserInteractionEnabled = false
             }

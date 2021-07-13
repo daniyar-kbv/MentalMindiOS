@@ -12,7 +12,13 @@ import SnapKit
 class TableCell<T>: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     lazy var identifier = "TableCell"
     
-    var items: [T]? {
+    var items: [T] = [] {
+        didSet {
+            loadCells()
+        }
+    }
+    
+    var cells: [CollectionCell<T>] = [] {
         didSet {
             collectionView.reloadData()
         }
@@ -26,7 +32,7 @@ class TableCell<T>: UITableViewCell, UICollectionViewDelegate, UICollectionViewD
     
     var type_: Type?
     
-    var style: CellContentStyle = .darkContent {
+    lazy var style: CellContentStyle = .darkContent {
         didSet {
             switch style {
             case .darkContent:
@@ -78,6 +84,16 @@ class TableCell<T>: UITableViewCell, UICollectionViewDelegate, UICollectionViewD
         fatalError("init(coder:) has not been implemented")
     }
     
+    func loadCells() {
+        self.cells = Array(0..<items.count).map({
+            let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCell<T>.getReuseIdenifier(), for: IndexPath(item: $0, section: 0)) as! CollectionCell<T>
+            cell.style = style
+            cell.type = type
+            cell.item = items[$0]
+            return cell
+        })
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -125,15 +141,17 @@ class TableCell<T>: UITableViewCell, UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items?.count ?? 0
+        return cells.count
+//        return items?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCell<T>.getReuseIdenifier(), for: indexPath) as! CollectionCell<T>
-        cell.style = style
-        cell.type = type
-        cell.item = items?[indexPath.row]
-        return cell
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionCell<T>.getReuseIdenifier(), for: indexPath) as! CollectionCell<T>
+//        cell.style = style
+//        cell.type = type
+//        cell.item = items[indexPath.row]
+//        return cell
+        return cells[indexPath.row]
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -31,7 +31,7 @@ enum APIPoint {
     case me
     case levelDetail(id: Int)
     case faq
-    case updateUser(profileImage: URL? = nil, fullName: String? = nil, birthday: String? = nil, language: Language? = nil, country: String? = nil, city: String? = nil)
+    case updateUser(profileImage: URL? = nil, fullName: String? = nil, birthday: String? = nil, language: Language? = nil, country: String? = nil, city: String? = nil, fcmToken: String? = nil)
     case changePassword(oldPassword: String, newPassword: String)
     case help(text: String)
     case promocode(promocode: String)
@@ -134,7 +134,8 @@ extension APIPoint: EndPointType {
         case .login(let email, let password):
             return [
                 "email": email,
-                "password": password
+                "password": password,
+                "firebase_token": AppShared.sharedInstance.fcmToken ?? ""
             ]
         case .socialLogin(let type, let token, let email, let fullName):
             var parameters: Parameters = [
@@ -148,6 +149,9 @@ extension APIPoint: EndPointType {
             }
             if let fullName = fullName {
                 parameters["full_name"] = fullName
+            }
+            if let fcmToken = AppShared.sharedInstance.fcmToken {
+                parameters["firebase_token"] = fcmToken
             }
             return [
                 "social_info": parameters
@@ -187,7 +191,7 @@ extension APIPoint: EndPointType {
                 "star": star,
                 "meditation": meditation
             ]
-        case .updateUser(let profileImage, let fullName, let birthday, let language, let country, let city):
+        case .updateUser(let profileImage, let fullName, let birthday, let language, let country, let city, let fcmToken):
             var parameters: Parameters = [:]
             if let profileImage = profileImage {
                 parameters["profile_image"] = profileImage
@@ -206,6 +210,9 @@ extension APIPoint: EndPointType {
             }
             if let city = city {
                 parameters["city"] = city
+            }
+            if let fcmToken = fcmToken {
+                parameters["firebase_token"] = fcmToken
             }
             return parameters
         case .changePassword(let oldPassword, let newPassword):
@@ -233,7 +240,8 @@ extension APIPoint: EndPointType {
         case .payment(let receipt, let tariffId):
             return [
                 "receipt_data": receipt,
-                "tariff_id": tariffId
+                "tariff_id": tariffId,
+                "dev": Config.isDevelopment
             ]
         default:
             return nil
@@ -258,8 +266,10 @@ extension APIPoint: EndPointType {
     
     var baseURL: URL {
         switch self {
-        case .login, .register, .passwordRestore, .socialLogin, .subscriptionStatus, .favoriteMeditaions, .favoriteMeditationsAdd, .favoriteMeditationsDelete, .updateUser, .changePassword:
+        case .login, .register, .passwordRestore, .socialLogin, .subscriptionStatus, .favoriteMeditationsAdd, .favoriteMeditationsDelete, .updateUser, .changePassword:
             return URL(string: "https://server.mentalmind.kz")!
+        case .collections, .favoriteMeditaions, .collectionDetail, .meditationDetail:
+            return URL(string: "https://server.mentalmind.kz/api/v3")!
         default:
             return URL(string: "https://server.mentalmind.kz/api/v2")!
         }

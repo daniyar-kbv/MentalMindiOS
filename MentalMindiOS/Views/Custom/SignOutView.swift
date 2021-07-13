@@ -32,28 +32,7 @@ class SignOutView: UIView {
                 (
                     key: "Выйти".localized,
                     value: { action in
-                        let notificationCenter = UNUserNotificationCenter.current()
-                        notificationCenter.removeAllPendingNotificationRequests()
-                        
-                        ModuleUserDefaults.setToken(nil)
-                        ModuleUserDefaults.setIsLoggedIn(false)
-                        ModuleUserDefaults.setNotificationsWeekdays(nil)
-                        ModuleUserDefaults.setNotificationDate(nil)
-                        
-                        AppShared.sharedInstance.feelingId = nil
-                        AppShared.sharedInstance.level = nil
-                        AppShared.sharedInstance.notificationsWeekdays = (key: nil, value: nil)
-                        AppShared.sharedInstance.selectedCountry = nil
-                        AppShared.sharedInstance.user = nil
-                        
-                        let window = Global.keyWindow
-                        AppShared.sharedInstance.keyWindow = window
-                        let vc = ChooseAuthViewController()
-                        vc.authView.backButton.isHidden = true
-                        AppShared.sharedInstance.navigationController.pushViewController(vc, animated: false)
-                        AppShared.sharedInstance.navigationController.viewControllers.removeAll(where: { $0 != vc })
-                        window?.rootViewController = AppShared.sharedInstance.navigationController
-                        window?.makeKeyAndVisible()
+                        AppShared.sharedInstance.signOut()
                     }
                 ),
                 (

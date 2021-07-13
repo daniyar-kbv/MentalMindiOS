@@ -27,7 +27,7 @@ class MeditaionDetailViewModel {
     }
     
     func favorite(action: FavoriteMeditationAction) {
-        if let meditationId = vc?.collection?.meditations?[vc?.currentMeditaion ?? 0].id, let collectionId = vc?.collection?.id{
+        if let meditationId = vc?.collection.meditations?[vc?.currentMeditaion ?? 0].id, let collectionId = vc?.collection.id{
             switch action{
             case .add:
                 APIManager.shared.favoriteMeditationsAdd(meditationId: meditationId, collectionId: collectionId) { error, response in

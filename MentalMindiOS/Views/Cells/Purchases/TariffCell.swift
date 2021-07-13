@@ -135,6 +135,7 @@ class TariffCell: UICollectionViewCell {
         case pink
         case blue
         case violet
+        case other
         
         var backgroundImage: UIImage {
             switch self {
@@ -144,6 +145,8 @@ class TariffCell: UICollectionViewCell {
                 return UIImage(named: "purchseBackBlue")!
             case .violet:
                 return UIImage(named: "purchseBackViolet")!
+            case .other:
+                return UIImage(named: "purchseBackBlue")!
             }
         }
         
@@ -155,6 +158,8 @@ class TariffCell: UICollectionViewCell {
                 return UIImage(named: "subscribeBlue")
             case .violet:
                 return UIImage(named: "subscribeViolet")
+            case .other:
+                return UIImage(named: "subscribeBlue")
             }
         }
     }

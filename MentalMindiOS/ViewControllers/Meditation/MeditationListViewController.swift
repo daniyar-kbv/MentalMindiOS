@@ -75,10 +75,9 @@ class MeditationListViewController: InnerViewController<MeditationListViewModel>
     }
     
     @objc func bigPlayTapped() {
-        let vc = MeditationDetailViewController()
-        vc.collection = collection
-        vc.currentMeditaion = 0
-        vc.mainView.backgroundImage.kf.setImage(with: URL(string: collection?.fileImage ?? ""))
+        guard let collection = collection else { return }
+        let vc = MeditationDetailViewController(collection: collection, currentMeditation: 0)
+        vc.mainView.backgroundImage.kf.setImage(with: URL(string: collection.fileImage ?? ""))
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -90,17 +89,15 @@ extension MeditationListViewController: UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MeditationCell.reuseIdentifier, for: indexPath) as! MeditationCell
-        cell.meditation = collection?.meditations?.map({ meditation in Meditation(meditationId: meditation.id, meditationName: meditation.name, meditationDescription: meditation.description_, meditationFileMaleVoice: meditation.fileMaleVoice, meditationFileFemaleVoice: meditation.fileFemaleVoice, collectionId: self.collection?.id, fileImage: self.collection?.fileImage, duration: meditation.duration) })[indexPath.row]
+        cell.meditation = collection?.meditations?.map({ meditation in Meditation(meditationId: meditation.id, meditationName: meditation.name, meditationDescription: meditation.description_, meditationFileMaleVoice: meditation.fileMaleVoice, meditationFileFemaleVoice: meditation.fileFemaleVoice, collectionId: self.collection?.id, fileImage: self.collection?.fileImage, durationMale: meditation.durationMale, durationFemale: meditation.durationFemale) })[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard collection?.meditations?[indexPath.row].fileMaleVoice != nil ||
-                collection?.meditations?[indexPath.row].fileFemaleVoice != nil else { return }
-        let vc = MeditationDetailViewController()
-        vc.collection = collection
-        vc.currentMeditaion = indexPath.row
-        vc.mainView.backgroundImage.kf.setImage(with: URL(string: collection?.fileImage ?? ""))
+        guard let collection = collection, collection.meditations?[indexPath.row].fileMaleVoice != nil ||
+                collection.meditations?[indexPath.row].fileFemaleVoice != nil else { return }
+        let vc = MeditationDetailViewController(collection: collection, currentMeditation: indexPath.row)
+        vc.mainView.backgroundImage.kf.setImage(with: URL(string: collection.fileImage ?? ""))
         navigationController?.pushViewController(vc, animated: true)
     }
 }

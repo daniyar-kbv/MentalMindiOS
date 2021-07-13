@@ -53,6 +53,8 @@
 	<string>3564330413611439</string>
 	<key>FacebookDisplayName</key>
 	<string>Mental Mind</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>

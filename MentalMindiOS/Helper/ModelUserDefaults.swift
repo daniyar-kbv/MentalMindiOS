@@ -145,6 +145,31 @@ struct ModuleUserDefaults {
         }
     }
     
+    static func setIsPurchaseProcessed(_ value: Bool){
+        defaults.setValue(value, forKey: "isPurchaseProcessed")
+    }
+    
+    static func getIsPurchaseProcessed() -> Bool{
+        guard let value = defaults.value(forKey: "isPurchaseProcessed") as? Int else { return true }
+        return value == 1
+    }
+    
+    static func setLastPurchaseTariffId(object: Int) {
+        defaults.setValue(object, forKey: "lastPurchase")
+    }
+
+    static func getLastPurchaseTariffId() -> Int? {
+        return defaults.value(forKey: "lastPurchase") as? Int
+    }
+    
+    static func setFcmToken(_ value: String?) {
+        defaults.setValue(value, forKey: "fcmToken")
+    }
+    
+    static func getFcmToken() -> String? {
+        return defaults.value(forKey: "fcmToken") as? String
+    }
+    
     static func clear(){
         let domain = Bundle.main.bundleIdentifier!
         defaults.removePersistentDomain(forName: domain)

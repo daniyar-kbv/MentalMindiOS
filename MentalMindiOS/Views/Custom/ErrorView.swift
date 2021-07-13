@@ -12,6 +12,8 @@ import SnapKit
 
 class ErrorView: UIView {
     static var initialStatusBarStyle: UIStatusBarStyle!
+    static var isPresenting = false
+    var completion: (() -> Void)?
     
     lazy var errorImage: UIImageView = {
         let view = UIImageView()
@@ -74,17 +76,25 @@ class ErrorView: UIView {
         })
     }
     
-    static func addToView(view: UIView? = nil, text: String){
+    static func addToView(view: UIView? = nil, text: String, completion: (() -> Void)? = nil){
+        guard !isPresenting else { return }
+        isPresenting = true
+        
         var view = view
         if view == nil {
             view = UIApplication.topViewController()?.view
         }
         let errorView = ErrorView()
         errorView.errorLabel.text = text
+        errorView.completion = completion
         
         view?.addSubview(errorView)
         errorView.snp.makeConstraints({
             $0.edges.equalToSuperview()
+        })
+        
+        UIView.animate(withDuration: 0, animations: {
+            view?.layoutIfNeeded()
         })
         
         initialStatusBarStyle = UIApplication.shared.statusBarStyle
@@ -92,9 +102,11 @@ class ErrorView: UIView {
     }
     
     @objc func onTap(){
+        completion?()
         let vc = self.viewContainingController()
         removeFromSuperview()
         vc?.viewDidLoad()
         UIApplication.shared.statusBarStyle = ErrorView.initialStatusBarStyle
+        ErrorView.isPresenting = false
     }
 }

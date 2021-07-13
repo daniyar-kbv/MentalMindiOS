@@ -68,16 +68,19 @@ class Loader: UIView {
         if let view = view {
             loader.addToView(view: view)
         } else if let view = UIApplication.topViewController()?.view{
-            print(view.frame)
             loader.addToView(view: view)
         }
         
+        let taskId = UIApplication.shared.beginBackgroundTask() {
+            loader.removeFromSuperview()
+        }
         loader.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-            if loader.progress != 100 {
+            if loader.progress < 100 {
                 loader.progress += 1
             } else {
                 loader.timer?.invalidate()
                 loader.removeFromSuperview()
+                UIApplication.shared.endBackgroundTask(taskId)
             }
         }
         

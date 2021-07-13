@@ -29,11 +29,26 @@ class UpdateProfileViewController: BaseViewController {
                         cell.inputField.text = countries.first?.name
                     }
                 case .city:
-                    if let country = AppShared.sharedInstance.user?.country, let city = AppShared.sharedInstance.user?.city {
-                        cell.inputField.selectedItem = countries.first(where: { $0.name == country })?.cities?.first(where: { $0.name == city })
-                    } else if countries.count == 1 {
-                        cell.inputField.items = countries.first?.cities ?? []
+                    if let country = countries.first(where: { $0.name == AppShared.sharedInstance.user?.country }) {
+                        cell.inputField.items = country.cities ?? []
                     }
+
+                    if let city = countries
+                        .first(where: { $0.cities?
+                                .contains(where: { $0.name == AppShared.sharedInstance.user?.city }) ?? false })?
+                        .cities?
+                        .first(where: { $0.name == AppShared.sharedInstance.user?.city }) {
+                        cell.inputField.selectedItem = city
+                    }
+                    
+                    
+//                    if let country = AppShared.sharedInstance.user?.country {
+//                        if let city = AppShared.sharedInstance.user?.city {
+//                            cell.inputField.selectedItem = countries.first(where: { $0.name == country })?.cities?.first(where: { $0.name == city })
+//                        }
+//                    } else if countries.count == 1 {
+//                        cell.inputField.items = countries.first?.cities ?? []
+//                    }
                 default:
                     break
                 }
@@ -74,6 +89,7 @@ class UpdateProfileViewController: BaseViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }).disposed(by: disposeBag)
+        
         viewModel.countries.subscribe(onNext: { object in
             DispatchQueue.main.async {
                 self.countries = object
@@ -111,7 +127,7 @@ class UpdateProfileViewController: BaseViewController {
                 }
             }
         }
-        if name != nil || birthday != nil || country != nil || city != nil {
+        if name != nil || birthday != nil || country != nil {
             viewModel.updateProfile(fullName: name, birthday: birthday, country: country, city: city)
         } else {
             navigationController?.popViewController(animated: true)

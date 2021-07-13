@@ -28,7 +28,13 @@ class UpdateProfileViewModel {
     }
     
     func updateProfile(profileImage: URL? = nil, fullName: String? = nil, birthday: String? = nil, language: Language? = nil, country: String? = nil, city: String? = nil) {
-        APIManager.shared.updateProfile(profileImage: profileImage, fullName: fullName, birthday: birthday, language: language, country: country, city: city) { error, response in
+        APIManager.shared.updateProfile(profileImage: profileImage,
+                                        fullName: fullName,
+                                        birthday: birthday,
+                                        language: language,
+                                        country: country,
+                                        city: city,
+                                        fcmToken: AppShared.sharedInstance.fcmToken) { error, response in
             self.updateResponse = response
         }
     }

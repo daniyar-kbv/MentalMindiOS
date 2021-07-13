@@ -50,7 +50,7 @@ enum JuraStyles: String {
 }
 
 enum Language: String, CaseIterable {
-    case kz = "kk-KZ"
+    case kz = "kz"
     case ru = "ru"
     
     var number: Int {
@@ -512,4 +512,5 @@ enum NotificationType: String {
     case affirmation
     case challenge
     case pushLink = "push_link"
+    case test
 }

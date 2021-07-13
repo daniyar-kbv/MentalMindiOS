@@ -23,6 +23,14 @@ class NavigationMenuBaseController: UITabBarController {
         loadTabBar()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard let notification = AppShared.sharedInstance.openNotification else { return }
+        notification.open()
+        AppShared.sharedInstance.openNotification = nil
+    }
+    
     private func loadTabBar() {
         self.setupCustomTabBar(tabItems) { (controllers) in
             self.viewControllers = controllers

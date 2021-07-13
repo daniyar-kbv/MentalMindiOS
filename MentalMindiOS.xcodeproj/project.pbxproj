@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1419EDBA25DD61B200B72A6D /* UIScrollVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1419EDB925DD61B200B72A6D /* UIScrollVIew.swift */; };
+		1446062E267CA496001CD073 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1446062D267CA496001CD073 /* StoreKit.framework */; };
 		1459DD1A2593368400CD879E /* PremiumBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1459DD192593368400CD879E /* PremiumBaseView.swift */; };
 		1459DD2025933A8C00CD879E /* PremiumPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1459DD1F25933A8C00CD879E /* PremiumPreviewView.swift */; };
 		1459DD2325933EF500CD879E /* PremiumPurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1459DD2225933EF500CD879E /* PremiumPurchaseView.swift */; };
@@ -17,9 +18,11 @@
 		1459DD36259352B200CD879E /* PremiumPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1459DD35259352B200CD879E /* PremiumPurchaseViewController.swift */; };
 		1459DD39259359AC00CD879E /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1459DD38259359AC00CD879E /* UILabel.swift */; };
 		1459DD3D25935BBF00CD879E /* TariffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1459DD3C25935BBF00CD879E /* TariffCell.swift */; };
+		14808E5626778405002F071A /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14808E5526778405002F071A /* AppConfiguration.swift */; };
 		1486501D26178F8400AC7403 /* PhotoLibraryPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1486501C26178F8400AC7403 /* PhotoLibraryPermissionManager.swift */; };
 		148650232617900400AC7403 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 148650252617900400AC7403 /* InfoPlist.strings */; };
 		14873C0326159F230022C94A /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14873C0226159F230022C94A /* SignOutView.swift */; };
+		148ABB1F268B34300070045F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 148ABB1E268B34300070045F /* GoogleService-Info.plist */; };
 		148DC76B263021C50022780F /* PolicyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148DC76A263021C50022780F /* PolicyButton.swift */; };
 		148F8D632590955B001A5528 /* UpdateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148F8D622590955B001A5528 /* UpdateProfileView.swift */; };
 		148F8D66259095DF001A5528 /* ProfileInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148F8D65259095DF001A5528 /* ProfileInputCell.swift */; };
@@ -235,6 +238,7 @@
 
 /* Begin PBXFileReference section */
 		1419EDB925DD61B200B72A6D /* UIScrollVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollVIew.swift; sourceTree = "<group>"; };
+		1446062D267CA496001CD073 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1459DD192593368400CD879E /* PremiumBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumBaseView.swift; sourceTree = "<group>"; };
 		1459DD1F25933A8C00CD879E /* PremiumPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPreviewView.swift; sourceTree = "<group>"; };
 		1459DD2225933EF500CD879E /* PremiumPurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPurchaseView.swift; sourceTree = "<group>"; };
@@ -244,10 +248,12 @@
 		1459DD35259352B200CD879E /* PremiumPurchaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPurchaseViewController.swift; sourceTree = "<group>"; };
 		1459DD38259359AC00CD879E /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		1459DD3C25935BBF00CD879E /* TariffCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TariffCell.swift; sourceTree = "<group>"; };
+		14808E5526778405002F071A /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		1486501C26178F8400AC7403 /* PhotoLibraryPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryPermissionManager.swift; sourceTree = "<group>"; };
 		148650272617900800AC7403 /* kk-KZ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "kk-KZ"; path = "kk-KZ.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		14865028261790C900AC7403 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		14873C0226159F230022C94A /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
+		148ABB1E268B34300070045F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		148DC76A263021C50022780F /* PolicyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyButton.swift; sourceTree = "<group>"; };
 		148F8D622590955B001A5528 /* UpdateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileView.swift; sourceTree = "<group>"; };
 		148F8D65259095DF001A5528 /* ProfileInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputCell.swift; sourceTree = "<group>"; };
@@ -475,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE783232E86C8B2C5EFC64B2 /* Pods_MentalMindiOS.framework in Frameworks */,
+				1446062E267CA496001CD073 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +491,7 @@
 		0456B1379F8BA03201F76F9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1446062D267CA496001CD073 /* StoreKit.framework */,
 				9F6E7907BB0E064000B9F61E /* Pods_MentalMindiOS.framework */,
 			);
 			name = Frameworks;
@@ -925,6 +933,7 @@
 				15B4D47C2573C46700E7466D /* Enum.swift */,
 				156F2F7E25754AEA001054E5 /* Loader.swift */,
 				1486501C26178F8400AC7403 /* PhotoLibraryPermissionManager.swift */,
+				14808E5526778405002F071A /* AppConfiguration.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -967,6 +976,7 @@
 		15B4D4A82573C4F800E7466D /* Resourses */ = {
 			isa = PBXGroup;
 			children = (
+				148ABB1E268B34300070045F /* GoogleService-Info.plist */,
 				159054D5258028E800A0A64F /* BackgroundMusic */,
 				15B4D5372573CF6500E7466D /* Fonts */,
 				15B4D42E2573C22800E7466D /* Assets.xcassets */,
@@ -1240,6 +1250,7 @@
 				15B4D5582573CF6500E7466D /* Montserrat-ExtraBold.ttf in Resources */,
 				15B4D54B2573CF6500E7466D /* Montserrat-LightItalic.ttf in Resources */,
 				157177E125839A65009173A3 /* летний дождь.mp3 in Resources */,
+				148ABB1F268B34300070045F /* GoogleService-Info.plist in Resources */,
 				14EAC92D25950BBB003659DF /* Secrets.plist in Resources */,
 				15B4D5552573CF6500E7466D /* Montserrat-BlackItalic.ttf in Resources */,
 				15B4D5542573CF6500E7466D /* Montserrat-MediumItalic.ttf in Resources */,
@@ -1517,6 +1528,7 @@
 				1419EDBA25DD61B200B72A6D /* UIScrollVIew.swift in Sources */,
 				15731A022587C66E005CCF8C /* HistoryCalendar.swift in Sources */,
 				15B4D4B12573C54300E7466D /* TabItem.swift in Sources */,
+				14808E5626778405002F071A /* AppConfiguration.swift in Sources */,
 				15B4D48B2573C46700E7466D /* ModelUserDefaults.swift in Sources */,
 				14873C0326159F230022C94A /* SignOutView.swift in Sources */,
 				15B4D5202573C7F100E7466D /* Bundle.swift in Sources */,
@@ -1697,7 +1709,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = mentalmind.kz.MentalMindiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1721,7 +1733,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = mentalmind.kz.MentalMindiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -101,10 +101,9 @@ extension FavoriteMeditationsView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = MeditationDetailViewController()
         let meditation = favoriteMeditations?[indexPath.row]
-        let meditationDetail = MeditationDetail(id: meditation?.meditationId, name: meditation?.meditationName, description_: meditation?.meditationDescription, isFavorite: true, duration: meditation?.duration, fileMaleVoice: meditation?.meditationFileMaleVoice, fileFemaleVoice: meditation?.meditationFileFemaleVoice)
-        vc.collection = CollectionDetail(
+        let meditationDetail = MeditationDetail(id: meditation?.meditationId, name: meditation?.meditationName, description_: meditation?.meditationDescription, isFavorite: true, durationMale: meditation?.durationMale, durationFemale: meditation?.durationFemale, fileMaleVoice: meditation?.meditationFileMaleVoice, fileFemaleVoice: meditation?.meditationFileFemaleVoice)
+        let collection = CollectionDetail(
             id: meditation?.collectionId,
             name: nil,
             description: nil,
@@ -114,7 +113,7 @@ extension FavoriteMeditationsView: UITableViewDelegate, UITableViewDataSource {
             tags: nil,
             meditations: [meditationDetail],
             challenges: nil)
-        vc.currentMeditaion = 0
+        let vc = MeditationDetailViewController(collection: collection, currentMeditation: 0)
         vc.mainView.backgroundImage.kf.setImage(with: URL(string: meditation?.fileImage ?? ""))
         AppShared.sharedInstance.navigationController?.pushViewController(vc, animated: true)
     }

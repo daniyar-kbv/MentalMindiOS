@@ -14,15 +14,15 @@ class InstrumentsViewController: BaseViewController {
     lazy var viewModel = InstrumentsViewModel()
     lazy var disposeBag = DisposeBag()
     
-    var cells: [TableCell<Any>]? {
+    var items: [(key: Tag, value: [Collection])] = [] {
         didSet {
-            mainView.tableView.reloadData()
+            loadCells()
         }
     }
     
-    var items: [(key: Tag, value: [Collection])]? {
+    var cells: [TableCell<Any>] = [] {
         didSet {
-            loadCells()
+            mainView.tableView.reloadData()
         }
     }
     
@@ -54,16 +54,14 @@ class InstrumentsViewController: BaseViewController {
     }
     
     func loadCells() {
-        var cells: [TableCell<Any>] = []
-        for tag in items ?? [] {
+        self.cells = items.map({
             let cell = mainView.tableView.dequeueReusableCell(withIdentifier: TableCell<Any>().identifier) as! TableCell<Any>
-            cell.titleLabel.text = tag.0.name
+            cell.titleLabel.text = $0.0.name
             cell.type = .medium
-            cell.items = tag.value
             cell.style = .lightContent
-            cells.append(cell)
-        }
-        self.cells = cells
+            cell.items = $0.value
+            return cell
+        })
     }
     
     func bind() {
@@ -77,11 +75,11 @@ class InstrumentsViewController: BaseViewController {
 
 extension InstrumentsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cells?.count ?? 0
+        return cells.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return cells?[indexPath.row] ?? UITableViewCell()
+        return cells[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

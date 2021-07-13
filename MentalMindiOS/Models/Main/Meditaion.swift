@@ -27,7 +27,7 @@ class FavoriteMeditationsData: Codable {
     }
 }
 
-class Meditation: NSObject, Codable, NSCoding {
+class Meditation: NSObject, Codable, NSCoding, MeditationAudio {
     var meditationId: Int?
     var meditationName: String?
     var meditationDescription: String?
@@ -35,10 +35,34 @@ class Meditation: NSObject, Codable, NSCoding {
     var meditationFileFemaleVoice: String?
     var collectionId: Int?
     var fileImage: String?
-    var duration: Int?
+    var durationMale: Int?
+    var durationFemale: Int?
+    
+    func getDuration(_ voice: VoiceTypes) -> Int {
+        switch voice {
+        case .male:
+            guard let duration = durationMale else { return 0 }
+            return duration
+        case .female:
+            guard let duration = durationFemale else { return 0 }
+            return duration
+        }
+    }
+    
+    func getVoiceURL(_ voice: VoiceTypes) -> URL? {
+        switch voice {
+        case .male:
+            guard let voiceStr = meditationFileMaleVoice else { return URL(string: "") }
+            return URL(string: voiceStr)
+        case .female:
+            guard let voiceStr = meditationFileFemaleVoice else { return URL(string: "") }
+            return URL(string: voiceStr)
+        }
+    }
     
     enum CodingKeys: String, CodingKey {
-        case duration
+        case durationMale = "duration_male"
+        case durationFemale = "duration_female"
         case meditationId = "meditation_id"
         case meditationName = "meditation_name"
         case meditationDescription = "meditation_description"
@@ -48,7 +72,7 @@ class Meditation: NSObject, Codable, NSCoding {
         case fileImage = "file_image"
     }
     
-    init(meditationId: Int?, meditationName: String?, meditationDescription: String?, meditationFileMaleVoice: String?, meditationFileFemaleVoice: String?, collectionId: Int?, fileImage: String?, duration: Int?) {
+    init(meditationId: Int?, meditationName: String?, meditationDescription: String?, meditationFileMaleVoice: String?, meditationFileFemaleVoice: String?, collectionId: Int?, fileImage: String?, durationMale: Int?, durationFemale: Int?) {
         self.meditationId = meditationId
         self.meditationName = meditationName
         self.meditationDescription = meditationDescription
@@ -56,7 +80,8 @@ class Meditation: NSObject, Codable, NSCoding {
         self.meditationFileFemaleVoice = meditationFileFemaleVoice
         self.collectionId = collectionId
         self.fileImage = fileImage
-        self.duration = duration
+        self.durationMale = durationMale
+        self.durationFemale = durationFemale
     }
     
     required convenience init(coder aDecoder: NSCoder) {
@@ -67,8 +92,9 @@ class Meditation: NSObject, Codable, NSCoding {
         let meditationFileFemaleVoice = aDecoder.decodeObject(forKey: "meditationFileFemaleVoice") as? String
         let collectionId = aDecoder.decodeObject(forKey: "collectionId") as? Int
         let fileImage = aDecoder.decodeObject(forKey: "fileImage") as? String
-        let duration = aDecoder.decodeObject(forKey: "duration") as? Int
-        self.init(meditationId: meditationId, meditationName: meditationName, meditationDescription: meditationDescription, meditationFileMaleVoice: meditationFileMaleVoice, meditationFileFemaleVoice: meditationFileFemaleVoice, collectionId: collectionId, fileImage: fileImage, duration: duration)
+        let durationMale = aDecoder.decodeObject(forKey: "durationMale") as? Int
+        let durationFemale = aDecoder.decodeObject(forKey: "durationFemale") as? Int
+        self.init(meditationId: meditationId, meditationName: meditationName, meditationDescription: meditationDescription, meditationFileMaleVoice: meditationFileMaleVoice, meditationFileFemaleVoice: meditationFileFemaleVoice, collectionId: collectionId, fileImage: fileImage, durationMale: durationMale, durationFemale: durationFemale)
     }
     
     func encode(with aCoder: NSCoder) {
@@ -79,7 +105,8 @@ class Meditation: NSObject, Codable, NSCoding {
         aCoder.encode(meditationFileFemaleVoice, forKey: "meditationFileFemaleVoice")
         aCoder.encode(collectionId, forKey: "collectionId")
         aCoder.encode(fileImage, forKey: "fileImage")
-        aCoder.encode(duration, forKey: "duration")
+        aCoder.encode(durationMale, forKey: "durationMale")
+        aCoder.encode(durationFemale, forKey: "durationFemale")
     }
 }
 

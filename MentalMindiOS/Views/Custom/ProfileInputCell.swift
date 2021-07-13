@@ -138,8 +138,6 @@ class ProfileInputField<T>: UITextField, UIPickerViewDelegate, UIPickerViewDataS
             default:
                 break
             }
-        default:
-            break
         }
         
         setUp()
@@ -193,6 +191,7 @@ class ProfileInputField<T>: UITextField, UIPickerViewDelegate, UIPickerViewDataS
             AppShared.sharedInstance.selectedCountry = selectedItem as? Country
         case .city:
             text = (selectedItem as? City)?.name
+            AppShared.sharedInstance.selectedCity = selectedItem as? City
         default:
             break
         }

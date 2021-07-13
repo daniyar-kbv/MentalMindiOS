@@ -28,7 +28,12 @@ class ProfileMainViewController: BaseViewController {
                 if user?.isPremium ?? false {
                     subscriptionText = "\("Ваш тариф:".localized) \("Премиум аккаунт".localized)"
                 } else if user?.isPaid ?? false {
-                    subscriptionText = "\("Ваш тариф:".localized) \(user?.tariff?.name ?? "")\n\("Действует до:".localized) \(user?.subsExpiryDate?.toDate(format: "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")?.format(format: "dd.mm.yy") ?? "")"
+                    subscriptionText = "\("Ваш тариф:".localized) \(user?.tariff?.name ?? "")"
+                    if let date = user?.subsExpiryDate?.toDate(format: "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ")?.format(format: "dd.MM.yy") {
+                        subscriptionText += "\n\("Действует до:".localized) \(date)"
+                    } else if let date = user?.subsExpiryDate?.toDate(format: "yyyy-MM-dd'T'HH:mm:ssZ")?.format(format: "dd.MM.yy") {
+                        subscriptionText += "\n\("Действует до:".localized) \(date)"
+                    }
                 } else if user?.isTrial ?? false {
                     subscriptionText = "\("Ваш тариф:".localized) \("Пробный, трехдневный премиум доступ".localized)"
                 }

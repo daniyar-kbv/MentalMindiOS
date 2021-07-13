@@ -8,72 +8,89 @@
 import Foundation
 import UIKit
 
+//{
+//    "push_type_value": 261,
+//    "aps": {
+//        "alert": {
+//            "body" = "\U0422\U0435\U0441\U0442 \U0430\U0444\U0444\U0438\U0440\U043c\U0430\U0446\U0438\U044f",
+//            "title" = "\U0422\U0435\U0441\U0442 \U0430\U0444\U0444\U0438\U0440\U043c\U0430\U0446\U0438\U044f"
+//        }
+//    },
+//    "google.c.sender.id": 122100448228,
+//    "gcm.message_id": 1625058515668649,
+//    "push_type": "meditation"
+//    "google.c.a.e": 1
+//}
+
 class Notification {
     var aps: NotificationAps
-    var data: NotificationData
+    var pushType: NotificationType
+    var pushTypeValue: String
     
     init?(dictionary: [AnyHashable: Any]) {
-        guard let apsDict = dictionary["aps"] as? [AnyHashable: Any],
+        guard let apsDict = dictionary["aps"] as? [String: Any],
               let aps = NotificationAps(dictionary: apsDict),
-              let dataDict = dictionary["data"] as? [AnyHashable: Any],
-              let data = NotificationData(dictionary: dataDict)
+              let pushTypeStr = dictionary["push_type"] as? String,
+              let pushType = NotificationType(rawValue: pushTypeStr),
+              let pushTypeValue = dictionary["push_type_value"] as? String
         else {
+            print("\(String(describing: Self.self)) failed")
             return nil
         }
+        
         self.aps = aps
-        self.data = data
+        self.pushType = pushType
+        self.pushTypeValue = pushTypeValue
     }
     
     func open() {
-        switch data.pushType {
+        switch pushType {
         case .meditation:
-            guard let value = data.pushTypeValue as? Int else { return }
+            guard let value = Int(pushTypeValue) else { return }
             APIManager.shared.meditationDetail(id: value) { error, response in
                 guard let meditation = response?.data else { return }
-                let vc = MeditationDetailViewController()
-                vc.collection = CollectionDetail(id: nil, name: nil, description: nil, type: nil, fileImage: nil, forFeeling: nil, tags: nil, meditations: [meditation], challenges: nil)
-                vc.currentMeditaion = 0
+                let collection = CollectionDetail(id: nil, name: nil, description: nil, type: nil, fileImage: nil, forFeeling: nil, tags: nil, meditations: [meditation], challenges: nil)
+                let vc = MeditationDetailViewController(collection: collection, currentMeditation: 0)
                 AppShared.sharedInstance.navigationController.pushViewController(vc, animated: true)
             }
         case .affirmation:
-            guard let value = data.pushTypeValue as? Int else { return }
+            guard let value = Int(pushTypeValue) else { return }
             APIManager.shared.affirmationDetail(id: value) { error, response in
                 let vc = AffirmationDetailViewController()
                 vc.affirmation = response?.data
                 AppShared.sharedInstance.navigationController.pushViewController(vc, animated: true)
             }
         case .challenge:
-            guard let value = data.pushTypeValue as? Int else { return }
+            guard let value = Int(pushTypeValue) else { return }
             let vc = WideListViewController<Any>()
             vc.challengeId = value
             AppShared.sharedInstance.navigationController.pushViewController(vc, animated: true)
         case .collection:
-            guard let value = data.pushTypeValue as? Int else { return }
+            guard let value = Int(pushTypeValue) else { return }
             let vc = MeditationListViewController()
             vc.collectionId = value
             AppShared.sharedInstance.navigationController.pushViewController(vc, animated: true)
         case .pushLink:
-            guard let value = data.pushTypeValue as? String else { return }
-            if let url = URL(string: value) {
+            if let url = URL(string: pushTypeValue) {
                 UIApplication.shared.open(url)
             }
+        case .test:
+            break
         }
     }
 }
 
 class NotificationAps {
     var alert: NotificationAlert
-    var contentAvailable: Int
     
     init?(dictionary: [AnyHashable: Any]) {
         guard let alertDict = dictionary["alert"] as? [AnyHashable: Any],
-              let alert = NotificationAlert(dictionary: alertDict),
-              let contentAvailable = dictionary["content-available"] as? Int
+              let alert = NotificationAlert(dictionary: alertDict)
         else {
+            print("\(String(describing: Self.self)) failed")
             return nil
         }
         self.alert = alert
-        self.contentAvailable = contentAvailable
     }
 }
 
@@ -85,54 +102,10 @@ class NotificationAlert {
         guard let body = dictionary["body"] as? String,
               let title = dictionary["title"] as? String
         else {
+            print("\(String(describing: Self.self)) failed")
             return nil
         }
         self.body = body
         self.title = title
-    }
-}
-
-class NotificationData {
-    var pushType: NotificationType
-    var pushTypeValue: Any
-    var pusher: NotificationPusher
-    
-    init?(dictionary: [AnyHashable: Any]) {
-        guard let pushTypeString = dictionary["push_type"] as? String,
-              let pushType = NotificationType(rawValue: pushTypeString),
-              let pusherDict = dictionary["pusher"] as? [AnyHashable: Any],
-              let pusher = NotificationPusher(dictionary: pusherDict)
-        else {
-            return nil
-        }
-        self.pushType = pushType
-        self.pusher = pusher
-        switch pushType {
-        case .pushLink:
-            guard let pushValue = dictionary["push_type_value"] as? String else { return nil }
-            self.pushTypeValue = pushValue
-        default:
-            guard let pushValue = dictionary["push_type_value"] as? Int else { return nil }
-            self.pushTypeValue = pushValue
-        }
-    }
-}
-
-
-class NotificationPusher {
-    var instanceId: String
-    var publishId: String
-    var userShouldIgnore: Bool
-    
-    init?(dictionary: [AnyHashable: Any]) {
-        guard let instanceId = dictionary["instanceId"] as? String,
-              let publishId = dictionary["publishId"] as? String,
-              let userShouldIgnore = dictionary["userShouldIgnore"] as? Bool
-        else {
-            return nil
-        }
-        self.instanceId = instanceId
-        self.publishId = publishId
-        self.userShouldIgnore = userShouldIgnore
     }
 }

@@ -35,7 +35,9 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
     
     func request<T>(_ route: EndPoint, returning: T.Type, completion: @escaping(_ error:String?,_ module: T?)->()) where T : Response {
         let (headers, loader) = prepareRequest(route)
+        let taskId = UIApplication.shared.beginBackgroundTask()
         AF.request(route.baseURL.appendingPathComponent(route.path), method: route.httpMethod, parameters: route.parameters, encoding: Encoder.getEncoding(route.encoding), headers: headers).responseData() { response in
+            UIApplication.shared.endBackgroundTask(taskId)
             self.dataCompletion(response: response, loader: loader) { error, response in
                 completion(error, response)
             }
@@ -44,11 +46,10 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
     
     func upload<T>(_ route: EndPoint, returning: T.Type, completion: @escaping(_ error:String?,_ module: T?)->()) where T : Response {
         let (headers, loader) = prepareRequest(route)
+        let taskId = UIApplication.shared.beginBackgroundTask()
         AF.upload(
             multipartFormData: { multipartFormData in
                 for (key, value) in route.parameters ?? [String: Any]() {
-                    print(key)
-                    print(value)
                     if let url = value as? URL {
                         multipartFormData.append(url, withName: key)
                     } else if let data = "\(value)".data(using: String.Encoding.utf8, allowLossyConversion: false) {
@@ -65,6 +66,7 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
             self.dataCompletion(response: response, loader: loader) { error, response in
                 completion(error, response)
             }
+            UIApplication.shared.endBackgroundTask(taskId)
         })
     }
 
@@ -99,21 +101,21 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
                 showError(NetworkResponse.unableToDecode.localized, loader: loader, response)
                 completion(NetworkResponse.unableToDecode.localized, nil)
             }
-        case .failure(let error):
-            showError(error, loader: loader, response)
+        case .failure(let error, let errorCompletion):
+            showError(error, loader: loader, response, errorCompletion)
             completion(error, nil)
         }
     }
     
-    func showError(_ error: String?, loader: Loader?, _ response: AFDataResponse<Data>) {
+    func showError(_ error: String?, loader: Loader?, _ response: AFDataResponse<Data>, _ completion: (() -> Void)? = nil) {
         loader?.setProgress(100)
         print("Error: \(error)/nRequest: \(response.response?.statusCode ?? 0); \(response.request?.url?.absoluteString ?? "")")
-        ErrorView.addToView(text: error ?? "")
+        ErrorView.addToView(text: error ?? "", completion: completion)
     }
     
     enum Result<String>{
         case success
-        case failure(String)
+        case failure(String, (() -> Void)? = nil)
     }
 
     enum NetworkResponse:String {
@@ -129,6 +131,8 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
     
     fileprivate func handleNetworkResponse(_ response: HTTPURLResponse) -> Result<String>{
         switch response.statusCode {
+        case 403: return .failure("Вам необходимо авторизоваться",
+                                  { AppShared.sharedInstance.signOut() })
         case 200...499: return .success
         case 500...599: return .failure(NetworkResponse.serverError.localized)
         default: return .failure(NetworkResponse.failed.localized)

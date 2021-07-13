@@ -14,7 +14,7 @@ class MeditationRateViewModel {
     lazy var response = PublishSubject<RateMeditationResponse>()
     
     func rateMeditation(star: Int) {
-        if let currentMeditaion = vc?.superVc?.currentMeditaion, let meditation = vc?.superVc?.collection?.meditations?[currentMeditaion].id {
+        if let currentMeditaion = vc?.superVc?.currentMeditaion, let meditation = vc?.superVc?.collection.meditations?[currentMeditaion].id {
             vc?.mainView.isUserInteractionEnabled = false
             APIManager.shared.rateMeditation(star: star, meditation: meditation) { error, response in
                 self.vc?.mainView.isUserInteractionEnabled = true

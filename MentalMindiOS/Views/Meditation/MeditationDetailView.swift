@@ -10,14 +10,20 @@ import UIKit
 import SnapKit
 
 class MeditationDetailView: MeditationBaseView {
+    var voiceType: VoiceTypes {
+        didSet {
+            totalTimeLabel.text = meditation?.getDuration(voiceType).toTime() ?? ""
+            slider.maximumValue = Float(meditation?.getDuration(voiceType) ?? 0)
+        }
+    }
     var meditation: MeditationDetail? {
         didSet {
             titleLabel.text = meditation?.name
             descriptionLabel.text = meditation?.description_
             currentTimeLabel.text = "00:00"
-            totalTimeLabel.text = meditation?.duration?.toTime() ?? ""
             slider.minimumValue = 0
-            slider.maximumValue = Float(meditation?.duration ?? 0)
+            totalTimeLabel.text = meditation?.getDuration(voiceType).toTime() ?? ""
+            slider.maximumValue = Float(meditation?.getDuration(voiceType) ?? 0)
         }
     }
     
@@ -44,7 +50,7 @@ class MeditationDetailView: MeditationBaseView {
     
     lazy var dictorVoiceButton: MeditationInnerButton = {
         let view = MeditationInnerButton(type: .dictorVoice)
-        view.value.text = VoiceTypes.female.title
+        view.value.text = voiceType.title
         return view
     }()
     
@@ -107,7 +113,9 @@ class MeditationDetailView: MeditationBaseView {
         return view
     }()
     
-    required init() {
+    required init(voiceType: VoiceTypes) {
+        self.voiceType = voiceType
+        
         super.init(type: .detail)
         
         backgroundColor = .gray

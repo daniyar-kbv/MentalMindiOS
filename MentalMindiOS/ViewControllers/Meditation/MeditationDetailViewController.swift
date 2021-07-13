@@ -11,7 +11,7 @@ import AVFoundation
 import RxSwift
 
 class MeditationDetailViewController: BaseViewController {
-    lazy var mainView = MeditationDetailView()
+    lazy var mainView = MeditationDetailView(voiceType: voiceType)
     lazy var viewModel: MeditaionDetailViewModel = {
         let view = MeditaionDetailViewModel()
         view.vc = self
@@ -19,27 +19,20 @@ class MeditationDetailViewController: BaseViewController {
     }()
     lazy var disposeBag = DisposeBag()
     
-    var collection: CollectionDetail?
+    var collection: CollectionDetail
     var subscriptionId: Int?
-    var voiceType: VoiceTypes = .female {
+    var voiceType: VoiceTypes {
         didSet {
+            mainView.voiceType = voiceType
             mainView.dictorVoiceButton.value.text = voiceType.title
-            var stringUrl: String? = nil
-            switch voiceType {
-            case .female:
-                stringUrl = collection?.meditations?[currentMeditaion].fileFemaleVoice
-            case .male:
-                stringUrl = collection?.meditations?[currentMeditaion].fileMaleVoice
-            }
-            if let url = URL(string: stringUrl ?? "") {
-                removeMeditationObserver()
-                currentSec = 0
-                meditationItem = AVPlayerItem(url: url)
-                meditationPlayer = AVPlayer(playerItem: meditationItem)
-                addMeditationObserver()
-                if isPlaying {
-                    meditationPlayer?.play()
-                }
+            guard let url = collection.meditations?[currentMeditaion].getVoiceURL(voiceType) else { return }
+            removeMeditationObserver()
+            currentSec = 0
+            meditationItem = AVPlayerItem(url: url)
+            meditationPlayer = AVPlayer(playerItem: meditationItem)
+            addMeditationObserver()
+            if isPlaying {
+                meditationPlayer?.play()
             }
         }
     }
@@ -55,9 +48,15 @@ class MeditationDetailViewController: BaseViewController {
             }
         }
     }
-    var currentMeditaion: Int = 0 {
+    var currentMeditaion: Int {
         didSet {
-            if let url = URL(string: collection?.meditations?[currentMeditaion].fileFemaleVoice ?? "") {
+            switch voiceType {
+            case .female:
+                voiceType = collection.meditations?[currentMeditaion].fileFemaleVoice != nil ? .female : .male
+            case .male:
+                voiceType = collection.meditations?[currentMeditaion].fileMaleVoice != nil ? .male : .female
+            }
+            if let url = collection.meditations?[currentMeditaion].getVoiceURL(voiceType) {
                 removeMeditationObserver()
                 currentSec = 0
                 meditationItem = AVPlayerItem(url: url)
@@ -65,23 +64,23 @@ class MeditationDetailViewController: BaseViewController {
                 addMeditationObserver()
             }
             currentMeditaion == 0 ? mainView.backControllButton.disable() : mainView.backControllButton.enable()
-            (currentMeditaion == (collection?.meditations?.count ?? 0) - 1) ||
+            (currentMeditaion == (collection.meditations?.count ?? 0) - 1) ||
             (
-                collection?.meditations?[
-                    collection?.meditations?.count ?? 0 > currentMeditaion + 1 ? currentMeditaion + 1 : 0
+                collection.meditations?[
+                    collection.meditations?.count ?? 0 > currentMeditaion + 1 ? currentMeditaion + 1 : 0
                 ].fileFemaleVoice == nil &&
-                collection?.meditations?[
-                    collection?.meditations?.count ?? 0 > currentMeditaion + 1 ? currentMeditaion + 1 : 0
+                collection.meditations?[
+                    collection.meditations?.count ?? 0 > currentMeditaion + 1 ? currentMeditaion + 1 : 0
                 ].fileMaleVoice == nil
             ) ?
                 mainView.nextControllButton.disable() :
                 mainView.nextControllButton.enable()
             
             isFavoforite = (AppShared.sharedInstance.user?.favoriteMeditations?.contains(where: {
-                $0.meditationId == self.collection?.meditations?[currentMeditaion].id
+                $0.meditationId == self.collection.meditations?[currentMeditaion].id
             })) ?? false
             
-            mainView.meditation = collection?.meditations?[currentMeditaion]
+            mainView.meditation = collection.meditations?[currentMeditaion]
         }
     }
     var isFavoforite: Bool = false {
@@ -113,10 +112,22 @@ class MeditationDetailViewController: BaseViewController {
         didSet {
             mainView.currentTimeLabel.text = Int(currentSec).toTime()
             mainView.slider.setValue(currentSec, animated: true)
-            if currentSec > Float(collection?.meditations?[currentMeditaion].duration ?? 0) {
+            if currentSec > Float(collection.meditations?[currentMeditaion].getDuration(voiceType) ?? 0) {
                 stopPlayers()
             }
         }
+    }
+    
+    required init(collection: CollectionDetail, currentMeditation: Int) {
+        self.collection = collection
+        self.currentMeditaion = currentMeditation
+        self.voiceType = collection.meditations?[currentMeditaion].fileFemaleVoice != nil ? .female : .male
+        
+        super.init(nibName: .none, bundle: .none)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
@@ -129,6 +140,9 @@ class MeditationDetailViewController: BaseViewController {
         super.viewDidLoad()
         
         statusBarStyle = .lightContent
+        
+        let tmp = currentMeditaion
+        currentMeditaion = tmp
         
         mainView.likeButton.addTarget(self, action: #selector(likeTapped), for: .touchUpInside)
         mainView.backControllButton.addTarget(self, action: #selector(backTapped), for: .touchUpInside)
@@ -167,12 +181,12 @@ class MeditationDetailViewController: BaseViewController {
     func bind() {
         viewModel.action.subscribe(onNext: { object in
             DispatchQueue.main.async {
-                guard let meditation = self.collection?.meditations?[self.currentMeditaion], let user = AppShared.sharedInstance.user else { return }
+                guard let meditation = self.collection.meditations?[self.currentMeditaion], let user = AppShared.sharedInstance.user else { return }
                 switch object {
                 case .add:
                     self.mainView.likeButton.isActive = true
                     user.favoriteMeditations?.append(
-                        Meditation(meditationId: meditation.id, meditationName: meditation.name, meditationDescription: meditation.description_, meditationFileMaleVoice: meditation.fileMaleVoice, meditationFileFemaleVoice: meditation.fileFemaleVoice, collectionId: self.collection?.id, fileImage: self.collection?.fileImage, duration: meditation.duration)
+                        Meditation(meditationId: meditation.id, meditationName: meditation.name, meditationDescription: meditation.description_, meditationFileMaleVoice: meditation.fileMaleVoice, meditationFileFemaleVoice: meditation.fileFemaleVoice, collectionId: self.collection.id, fileImage: self.collection.fileImage, durationMale: meditation.durationMale, durationFemale: meditation.durationFemale)
                     )
                 case .delete:
                     self.mainView.likeButton.isActive = false
@@ -281,10 +295,10 @@ class MeditationDetailViewController: BaseViewController {
     func stopPlayers() {
         mainView.slider.setValue(0, animated: true)
         isPlaying = false
+        removeMeditationObserver()
         let timeScale = CMTimeScale(NSEC_PER_SEC)
         meditationPlayer?.seek(to: CMTime(seconds: 0, preferredTimescale: timeScale))
         backgroundPlayer?.currentTime = 0
-        removeMeditationObserver()
         let vc = MeditationRateViewController()
         vc.superVc = self
         navigationController?.pushViewController(vc, animated: true)
@@ -292,7 +306,7 @@ class MeditationDetailViewController: BaseViewController {
     }
     
     func sendHistory() {
-        guard let id = collection?.meditations?[currentMeditaion].id else { return }
+        guard let id = collection.meditations?[currentMeditaion].id else { return }
         viewModel.sendHistory(meditation: id, seconds: Int(currentSec))
     }
 }

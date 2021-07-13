@@ -47,7 +47,7 @@ class CollectionCell<T>: UICollectionViewCell {
         }
     }
     
-    var style: CellContentStyle = .darkContent {
+    lazy var style: CellContentStyle = .darkContent {
         didSet {
             switch style {
             case .darkContent:

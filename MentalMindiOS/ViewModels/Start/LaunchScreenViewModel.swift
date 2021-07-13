@@ -10,6 +10,7 @@ import RxSwift
 
 class LaunchScreenViewModel {
     lazy var data = PublishSubject<SubscriptionStatusData>()
+    lazy var paymentResponse = PublishSubject<PaymentResponse?>()
     
     var response: SubscriptionStatusResponse? {
         didSet {
@@ -24,6 +25,13 @@ class LaunchScreenViewModel {
     func subscriptionStatus() {
         APIManager.shared.subscriptionStatus() { error, response in
             self.response = response
+        }
+    }
+    
+    func payment(receipt: String, tariffId: Int) {
+        APIManager.shared.payment(receipt: receipt, tariffId: tariffId) { error, response in
+            ModuleUserDefaults.setIsPurchaseProcessed(true)
+            self.paymentResponse.onNext(response)
         }
     }
 }

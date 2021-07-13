@@ -138,8 +138,8 @@ struct APIManager {
         }
     }
     
-    func updateProfile(profileImage: URL? = nil, fullName: String? = nil, birthday: String? = nil, language: Language? = nil, country: String? = nil, city: String? = nil, completion: @escaping(_ error: String?,_ module: MeResponse?)->()) {
-        router.upload(.updateUser(profileImage: profileImage, fullName: fullName, birthday: birthday, language: language, country: country, city: city), returning: MeResponse.self) { error, response in
+    func updateProfile(profileImage: URL? = nil, fullName: String? = nil, birthday: String? = nil, language: Language? = nil, country: String? = nil, city: String? = nil, fcmToken: String? = nil, completion: @escaping(_ error: String?,_ module: MeResponse?)->()) {
+        router.upload(.updateUser(profileImage: profileImage, fullName: fullName, birthday: birthday, language: language, country: country, city: city, fcmToken: fcmToken), returning: MeResponse.self) { error, response in
             completion(error, response)
         }
     }

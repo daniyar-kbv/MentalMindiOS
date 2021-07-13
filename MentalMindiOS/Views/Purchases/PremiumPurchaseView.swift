@@ -35,6 +35,15 @@ class PremiumPurchaseView: PremiumBaseView {
         return view
     }()
     
+//    lazy var testLabel: UILabel = {
+//        let view = UILabel()
+//        view.backgroundColor = .white
+//        view.textColor = .black
+//        view.text = "Test statuses: "
+//        view.numberOfLines = 0
+//        return view
+//    }()
+    
     required init() {
         super.init(type: .purchase)
     }
@@ -57,6 +66,12 @@ class PremiumPurchaseView: PremiumBaseView {
             $0.top.equalTo(collectionView.snp.bottom).offset(StaticSize.size(30))
             $0.left.right.equalToSuperview()
         })
+        
+//        contentView.addSubview(testLabel)
+//        testLabel.snp.makeConstraints({
+//            $0.top.equalToSuperview()
+//            $0.left.right.equalToSuperview().inset(StaticSize.size(15))
+//        })
     }
     
     required init?(coder: NSCoder) {
