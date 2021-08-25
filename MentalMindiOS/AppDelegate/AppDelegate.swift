@@ -12,15 +12,9 @@ import FBSDKCoreKit
 import VK_ios_sdk
 import Firebase
 
-//MARK: Beams
-//import PushNotifications
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     let reachibilityHandler = ReachabilityHandler()
-    
-//    MARK: Beams
-//    let beamsClient = PushNotifications.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         NetworkActivityLogger.shared.startLogging()
@@ -47,20 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         Messaging.messaging().token { token, error in
             if let error = error {
                 print("Error fetching FCM registration token: \(error)")
-            } else if let token = token {
-            print("FCM registration token: \(token)")
-                AppShared.sharedInstance.fcmToken = token
             }
         }
-        
-//        MARK: Beams methods
-//        if let instanceId = Bundle.main.getSecret(key: "Beams Instance Id") as? String {
-//            beamsClient.start(instanceId: instanceId)
-//            print("Beams Client started")
-//        }
-//
-//        beamsClient.registerForRemoteNotifications()
-        
+
         return true
     }
 
@@ -75,7 +58,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
+        guard !fcmToken.isEmpty else { return }
+        print("FCM registration token: \(String(describing: fcmToken))")
         AppShared.sharedInstance.fcmToken = fcmToken
         let dataDict:[String: String] = ["token": fcmToken]
         NotificationCenter.default.post(name: Foundation.Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
@@ -132,18 +116,4 @@ extension AppDelegate {
         
         return true
     }
-}
-
-//  MARK: Beams methods
-extension AppDelegate {
-    //    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    //        beamsClient.registerDeviceToken(deviceToken)
-    //    }
-        
-    //    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    //        let remoteNotificationType = self.beamsClient.handleNotification(userInfo: userInfo)
-    //        if remoteNotificationType == .ShouldIgnore {
-    //            return
-    //        }
-    //    }
 }

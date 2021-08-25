@@ -123,7 +123,6 @@ PODS:
   - nanopb/encode (1.30906.0)
   - PromisesObjC (1.2.11)
   - Protobuf (3.13.0)
-  - PushNotifications (3.0.4)
   - ReachabilitySwift (5.0.0)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
@@ -145,7 +144,6 @@ DEPENDENCIES:
   - GoogleSignIn
   - JTAppleCalendar (~> 7.1)
   - Kingfisher
-  - PushNotifications
   - ReachabilitySwift
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
@@ -179,7 +177,6 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
-    - PushNotifications
     - ReachabilitySwift
     - RxCocoa
     - RxRelay
@@ -213,7 +210,6 @@ SPEC CHECKSUMS:
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
-  PushNotifications: 6e3d148e5e129af9d4a9279b288c934f9a7f9066
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
@@ -221,6 +217,6 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   VK-ios-sdk: 104a8bc259199fb1fc621c1c93d7a9a6befb4ca0
 
-PODFILE CHECKSUM: a677deb12a22a3028a711c78c9fce47b202fa695
+PODFILE CHECKSUM: 7aacd29ecbe28303fe8c042e4324a69fef6f7f4e
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1

@@ -190,13 +190,11 @@ extension ChooseAuthViewController: ASAuthorizationControllerPresentationContext
         switch authorization.credential {
         case let credential as ASAuthorizationAppleIDCredential:
             var fullName: String? = nil
-            var email = credential.email
+            let email = credential.email
             if let firstName = credential.fullName?.givenName, let lastName = credential.fullName?.familyName {
                 fullName = "\(firstName) \(lastName)"
             }
             let token = String(decoding:  credential.identityToken! , as: UTF8.self)
-//            let pasteboard = UIPasteboard.general
-//            pasteboard.string = token
             viewModel.socialLogin(type: .apple, token: token, email: email, fullName: fullName)
         case let passwordCredential as ASPasswordCredential:
             showAlert(title: passwordCredential.user)

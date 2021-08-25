@@ -18,7 +18,6 @@ target 'MentalMindiOS' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
   pod 'Firebase/Crashlytics’
-  pod 'PushNotifications'
 
   pod 'ReachabilitySwift'
 

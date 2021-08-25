@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import RxSwift
-import PushNotifications
 import FBSDKLoginKit
 
 
@@ -22,14 +21,6 @@ class AppShared {
     
     lazy var tabBarController = NavigationMenuBaseController()
     lazy var noInternetViewController = NoInternetViewController()
-    
-    var isDebug: Bool {
-        #if DEBUG
-            return true
-        #else
-            return false
-        #endif
-    }
     
     var fcmToken: String? {
         didSet {

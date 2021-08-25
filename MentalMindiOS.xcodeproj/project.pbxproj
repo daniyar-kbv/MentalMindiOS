@@ -22,7 +22,6 @@
 		1486501D26178F8400AC7403 /* PhotoLibraryPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1486501C26178F8400AC7403 /* PhotoLibraryPermissionManager.swift */; };
 		148650232617900400AC7403 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 148650252617900400AC7403 /* InfoPlist.strings */; };
 		14873C0326159F230022C94A /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14873C0226159F230022C94A /* SignOutView.swift */; };
-		148ABB1F268B34300070045F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 148ABB1E268B34300070045F /* GoogleService-Info.plist */; };
 		148DC76B263021C50022780F /* PolicyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148DC76A263021C50022780F /* PolicyButton.swift */; };
 		148F8D632590955B001A5528 /* UpdateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148F8D622590955B001A5528 /* UpdateProfileView.swift */; };
 		148F8D66259095DF001A5528 /* ProfileInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148F8D65259095DF001A5528 /* ProfileInputCell.swift */; };
@@ -43,6 +42,7 @@
 		148F8DD62591211F001A5528 /* PromocodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148F8DD52591211F001A5528 /* PromocodeView.swift */; };
 		148F8DD925912371001A5528 /* PromocodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148F8DD825912371001A5528 /* PromocodeViewController.swift */; };
 		14927FBD264ABA4600364694 /* Listeners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14927FBC264ABA4600364694 /* Listeners.swift */; };
+		14A4C5C3269D95DE00CD6B32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14A4C5C2269D95DE00CD6B32 /* GoogleService-Info.plist */; };
 		14D5447925B5C24500C18EDB /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D5447825B5C24500C18EDB /* Notification.swift */; };
 		14E49A852591D72800974683 /* LevelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E49A842591D72800974683 /* LevelsViewModel.swift */; };
 		14E49A882591D88100974683 /* LevelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E49A872591D88100974683 /* LevelsView.swift */; };
@@ -56,7 +56,6 @@
 		14E49AA42592650C00974683 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E49AA32592650C00974683 /* HistoryView.swift */; };
 		14E49AA8259265A000974683 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E49AA7259265A000974683 /* HistoryViewController.swift */; };
 		14EAC92A2594ACD8003659DF /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EAC9292594ACD8003659DF /* ShareButton.swift */; };
-		14EAC92D25950BBB003659DF /* Secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14EAC92C25950BBB003659DF /* Secrets.plist */; };
 		14EFF2E125E00BF500CC1EC8 /* Countries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EFF2E025E00BF500CC1EC8 /* Countries.swift */; };
 		15029A6F2588B5FE005156DF /* FavoriteMeditationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15029A6E2588B5FE005156DF /* FavoriteMeditationsView.swift */; };
 		15029A732588B926005156DF /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15029A722588B926005156DF /* SubscriptionView.swift */; };
@@ -253,7 +252,6 @@
 		148650272617900800AC7403 /* kk-KZ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "kk-KZ"; path = "kk-KZ.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		14865028261790C900AC7403 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		14873C0226159F230022C94A /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
-		148ABB1E268B34300070045F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		148DC76A263021C50022780F /* PolicyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyButton.swift; sourceTree = "<group>"; };
 		148F8D622590955B001A5528 /* UpdateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileView.swift; sourceTree = "<group>"; };
 		148F8D65259095DF001A5528 /* ProfileInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputCell.swift; sourceTree = "<group>"; };
@@ -274,6 +272,7 @@
 		148F8DD52591211F001A5528 /* PromocodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodeView.swift; sourceTree = "<group>"; };
 		148F8DD825912371001A5528 /* PromocodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodeViewController.swift; sourceTree = "<group>"; };
 		14927FBC264ABA4600364694 /* Listeners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listeners.swift; sourceTree = "<group>"; };
+		14A4C5C2269D95DE00CD6B32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		14D5447825B5C24500C18EDB /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		14E49A842591D72800974683 /* LevelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsViewModel.swift; sourceTree = "<group>"; };
 		14E49A872591D88100974683 /* LevelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelsView.swift; sourceTree = "<group>"; };
@@ -287,7 +286,6 @@
 		14E49AA32592650C00974683 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		14E49AA7259265A000974683 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		14EAC9292594ACD8003659DF /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
-		14EAC92C25950BBB003659DF /* Secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Secrets.plist; sourceTree = "<group>"; };
 		14EFF2E025E00BF500CC1EC8 /* Countries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Countries.swift; sourceTree = "<group>"; };
 		15029A6E2588B5FE005156DF /* FavoriteMeditationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteMeditationsView.swift; sourceTree = "<group>"; };
 		15029A722588B926005156DF /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
@@ -976,14 +974,13 @@
 		15B4D4A82573C4F800E7466D /* Resourses */ = {
 			isa = PBXGroup;
 			children = (
-				148ABB1E268B34300070045F /* GoogleService-Info.plist */,
+				14A4C5C2269D95DE00CD6B32 /* GoogleService-Info.plist */,
 				159054D5258028E800A0A64F /* BackgroundMusic */,
 				15B4D5372573CF6500E7466D /* Fonts */,
 				15B4D42E2573C22800E7466D /* Assets.xcassets */,
 				15B4D4C42573C75800E7466D /* Localizable.strings */,
 				148650252617900400AC7403 /* InfoPlist.strings */,
 				15B4D4332573C22800E7466D /* Info.plist */,
-				14EAC92C25950BBB003659DF /* Secrets.plist */,
 				156F2F6B257521BB001054E5 /* MentalMindiOS.entitlements */,
 				15B4D4302573C22800E7466D /* LaunchScreen.storyboard */,
 			);
@@ -1250,8 +1247,7 @@
 				15B4D5582573CF6500E7466D /* Montserrat-ExtraBold.ttf in Resources */,
 				15B4D54B2573CF6500E7466D /* Montserrat-LightItalic.ttf in Resources */,
 				157177E125839A65009173A3 /* летний дождь.mp3 in Resources */,
-				148ABB1F268B34300070045F /* GoogleService-Info.plist in Resources */,
-				14EAC92D25950BBB003659DF /* Secrets.plist in Resources */,
+				14A4C5C3269D95DE00CD6B32 /* GoogleService-Info.plist in Resources */,
 				15B4D5552573CF6500E7466D /* Montserrat-BlackItalic.ttf in Resources */,
 				15B4D5542573CF6500E7466D /* Montserrat-MediumItalic.ttf in Resources */,
 				157177E325839A65009173A3 /* космический дух.mp3 in Resources */,
@@ -1709,7 +1705,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = mentalmind.kz.MentalMindiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1733,7 +1729,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = mentalmind.kz.MentalMindiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -50,6 +50,7 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
         AF.upload(
             multipartFormData: { multipartFormData in
                 for (key, value) in route.parameters ?? [String: Any]() {
+                    print(key, value)
                     if let url = value as? URL {
                         multipartFormData.append(url, withName: key)
                     } else if let data = "\(value)".data(using: String.Encoding.utf8, allowLossyConversion: false) {
