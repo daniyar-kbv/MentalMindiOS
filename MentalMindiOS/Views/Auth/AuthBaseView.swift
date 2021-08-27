@@ -80,7 +80,8 @@ class AuthBaseView: UIView {
         
         bottomButton.snp.makeConstraints({
             $0.bottom.equalToSuperview().offset(-(Global.safeAreaBottom() + StaticSize.size(15)))
-            $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(StaticSize.size(40))
         })
     }
     

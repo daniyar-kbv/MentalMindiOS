@@ -64,6 +64,7 @@ class MeditationDetailViewController: BaseViewController {
                 addMeditationObserver()
             }
             currentMeditaion == 0 ? mainView.backControllButton.disable() : mainView.backControllButton.enable()
+            
             (currentMeditaion == (collection.meditations?.count ?? 0) - 1) ||
             (
                 collection.meditations?[
@@ -117,6 +118,7 @@ class MeditationDetailViewController: BaseViewController {
             }
         }
     }
+    var isFavorites = false
     
     required init(collection: CollectionDetail, currentMeditation: Int) {
         self.collection = collection
@@ -293,6 +295,12 @@ class MeditationDetailViewController: BaseViewController {
     }
     
     func stopPlayers() {
+        if isFavorites &&
+            mainView.nextControllButton.isUserInteractionEnabled {
+            nextTapped()
+            return
+        }
+        
         mainView.slider.setValue(0, animated: true)
         isPlaying = false
         removeMeditationObserver()

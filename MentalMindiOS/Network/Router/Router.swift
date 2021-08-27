@@ -132,7 +132,7 @@ class MyRouter<EndPoint: EndPointType>: NetworkRouter{
     
     fileprivate func handleNetworkResponse(_ response: HTTPURLResponse) -> Result<String>{
         switch response.statusCode {
-        case 403: return .failure("Вам необходимо авторизоваться",
+        case 401: return .failure("Вам необходимо снова авторизоваться",
                                   { AppShared.sharedInstance.signOut() })
         case 200...499: return .success
         case 500...599: return .failure(NetworkResponse.serverError.localized)
